@@ -19,7 +19,7 @@ exports.post = (req,res,next) => {
                 "data" : e
             });
         });  
-};
+}
 exports.getall = (req,res,next) => {
     Spell
         .find({})
@@ -32,7 +32,7 @@ exports.getall = (req,res,next) => {
                 "data" : e
             });
         });
-};
+}
 exports.get = (req,res,next) => {
     Spell
         .findOne({
@@ -47,15 +47,61 @@ exports.get = (req,res,next) => {
                 "data" : e
             });
         });
-};
+}
 exports.put = (req,res,next) => {
-    res.status(200).send(
+    Spell
+        .findOneAndUpdate({
+            spell_id:req.params.id
+        },
         {
-            "message" : "Update",
-            "id": req.params.id,
-            "content" :req.body
+            $set:{
+                spell_id:req.body.spell_id,
+                name:req.body.name,                
+                level:req.body.level,
+                school:req.body.school,
+                castingTime:req.body.castingTime,
+                range:req.body.range,
+                components:req.body.components,
+                materialComponentDescription:req.body.materialComponentDescription,
+                duration:req.body.duration,
+                hasConcentration:req.body.hasConcentration,
+                canBeRitual:req.body.canBeRitual,
+                description:req.body.description,
+                damage:req.body.description,
+                damageType:req.body.damageType,
+                hasHigherLevels:req.body.hasHigherLevels,
+                higherLevelDescription:req.body.higherLevelDescription,
+                book:req.body.book,
+                page:req.body.page
+            }
+        })
+        .then(data => {
+            res.status(200).send({
+                "message" : "Spell updated!",
+                "data" : req.body
+            });
+        })
+        .catch(e => {
+            res.status(400).send({
+                "message" : "Something wnet wrong.",
+                "data" : e
+            });
         });
-};
+}
 exports.delete = (req,res,next) => {
-    res.status(200).send("deleted spell with id " + req.params.id);
-};
+    Spell
+        .findOneAndRemove({
+            spell_id:req.params.id
+        })
+        .then(data => {
+            res.status(200).send({
+                "message":"Spell removed!"
+            });
+        })
+        .catch(e => {
+            res.status(400).send({
+                "message" : "Something wnet wrong.",
+                "data" : e
+            });
+        });
+}

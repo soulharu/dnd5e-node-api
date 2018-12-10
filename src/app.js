@@ -9,6 +9,7 @@ const router = express.Router();
 
 //Database Connection
 mongoose.connect('mongodb://dnd5eapi:dnd5eapi@ds054288.mlab.com:54288/dnd5enode', {useNewUrlParser: true});
+mongoose.set('useCreateIndex', true);
 
 //Models
 const Spell = require('./models/spell-model');
